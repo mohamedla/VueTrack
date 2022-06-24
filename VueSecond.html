@@ -1,0 +1,70 @@
+<!-- https://www.vueframework.com/guide/introduction.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+      #app > *, input{
+        display: block;
+        margin: 10px;
+      }
+      .box{
+        width: 150px;
+        height: 150px;
+        background-color: blueviolet;
+      }
+    </style>
+
+</head>
+<body>
+    
+      
+      <div id="app">
+        <button @click="toggle">Toggle box</button>
+        <togglebox v-if="isRender" />
+      </div>
+      <script src="https://unpkg.com/vue@next"></script>
+      <script>
+      
+        let app = Vue.createApp({
+          data() {
+            return {
+              greeting : 'Welcome to Vue',
+              message: 'Hello Vue!',
+              isRender: true,
+              }
+            },
+          methods:{
+            toggle(){
+              this.isRender = !this.isRender;
+            }
+          },
+          updated() {
+            console.log('updated');
+          }
+        }
+        );
+
+        app.component('togglebox',{
+          template:`
+            <div class="box"></div>
+          `,
+          created() {
+            console.log('created');
+          },
+          mounted() {
+            console.log('mounted');
+          },
+          unmounted(){
+            console.log('unmounted');
+          }
+        });
+
+        app.mount('#app');
+        
+      </script>
+</body>
+</html>

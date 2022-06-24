@@ -1,0 +1,122 @@
+<!-- https://www.vueframework.com/guide/introduction.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+      #app > *, input{
+        display: block;
+        margin: 10px;
+      }
+      .box{
+        width: 150px;
+        height: 150px;
+        background-color: blueviolet;
+      }
+    </style>
+
+</head>
+<body>
+    
+      
+      <div id="app">
+        {{ greeting }}
+        <input v-model="greeting" />
+        <button @click="toggle">Toggle box</button>
+        <div v-if="isRender" class="box"></div>
+        <login-form></login-form>
+      </div>
+      <script src="https://unpkg.com/vue@next"></script>
+      <script>
+      
+        let app = Vue.createApp({
+          data() {
+            return {
+              greeting : 'Welcome to Vue',
+              message: 'Hello Vue!',
+              isRender: true,
+              }
+            },
+          methods:{
+            toggle(){
+              this.isRender = !this.isRender;
+            }
+          }
+        }
+        );
+
+        app.component('login-form', {
+          data() {
+            return {
+              title:"Log In Form",
+              inputs : [
+                {
+                  label:'Enter Email',
+                  type:'email',
+                  value:''
+                },
+                {
+                  label:'Enter Password',
+                  type:'password',
+                  value:''
+                }
+              ]
+            }
+          },
+          template: `
+            <form @submit.prevent="login">
+              <h1>{{title}}</h1>
+              <custom-input 
+                v-for = "(input, i) in inputs"
+                :key = "i"
+                v-model = "input.value"
+                :type = "input.type"
+                :label = "input.label"
+              />
+              <button>log in</button>
+            </form>
+          `,
+          methods:{
+            login(){
+              console.log(this.inputs[0].value,this.inputs[1].value);
+            }
+          },
+          components: ['custom-input']
+        });
+
+        app.component('custom-input',{
+          template: `
+            <label>
+              {{label}}
+              <input :type="type" v-model="inputValue"/>
+            </label>
+          `,
+          props: ['label', 'type' ,'modelValue'],
+          computed : {
+            inputValue: {
+              get() {
+                return this.modelValue
+              },
+              set(val) {
+                this.$emit('update:modelValue', val);
+              }
+            }
+          }
+        });
+        app.mount('#app');
+
+
+        // setTimeout(async ()=>{
+        //   let audio = new Audio('./message-ringtone-magic.mp3');
+        //   await audio.play();
+        //   alert('Your Trun With Hany');
+          
+
+        // }, 10000)
+        
+      </script>
+</body>
+</html>

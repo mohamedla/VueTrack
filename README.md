@@ -1,2 +1,3 @@
-# VueTrack
-The VueJS Learning Journey
+# Vue
+My Apps Throw Learning VueJS  Journey
+
